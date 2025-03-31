@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+
+base_dirs=(
+"$HOME/dev/personal/"
+"$HOME/dev/work/"
+"$HOME/dev/work/github.com"
+"$HOME/dev/work/gitlab.com"
+)
+
+base_dir=$(printf "%s\n" "${base_dirs[@]}" | fzf --prompt="Select Directory: ")
+selected=$(find "$base_dir" -mindepth 1 -maxdepth 1 -type d | fzf)
+
+if [[ -z "$selected" ]]; then
+	exit 0
+fi
+
+selected_name=$(basename $selected | tr ":,. " "____")
+
+switch_to () {
+	if [[ -z "$TMUX" ]]; then
+		tmux attach -t $selected_name
+	else
+		tmux switch-client -t $selected_name
+	fi
+}
+
+
+if tmux has-session -t=$selected_name 2> /dev/null; then 
+	switch_to 
+	exit 0
+fi
+
+tmux new-session -ds $selected_name -c $selected
+switch_to
+tmux send-keys -t $selected_name "init-tmux" 

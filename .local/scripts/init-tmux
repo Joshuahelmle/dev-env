@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+if [[ -x .init-tmux ]]; then
+	./.init-tmux
+	echo "Local init tmux running.."
+elif [[ -x ~/.init-tmux ]]; then
+	echo "Global init tmux running.."
+	~/.init-tmux
+
+fi
+clear

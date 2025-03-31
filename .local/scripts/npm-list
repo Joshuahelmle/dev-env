@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+#check if a packgage.json exists
+if [[ ! -f "package.json" ]]; then
+    echo "No package.json file in this directory."
+    exit 1
+fi
+
+#get script names
+SCRIPTS=$(jq -r '.scripts | keys[]' ./package.json)
+
+if [[ -z "$SCRIPTS" ]]; then
+    echo "no scripts in package.json"
+    exit 1
+fi
+
+SCRIPT=$(echo "$SCRIPTS" | fzf --prompt "Select the script to run: " --height 10 --border --exit-0)
+
+if [[ -n "$SCRIPT" ]]; then
+    echo "running: npm run $SCRIPT"
+    npm run "$SCRIPT"
+else
+    echo "no script selected."
+    exit 
+fi
