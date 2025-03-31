@@ -3,5 +3,4 @@
 git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/personal/fzf
 $HOME/personal/fzf/install
 
-sudo apt-get install jq
-sudo apt-get install ripgrep
+sudo apt install jq make gcc ripgrep unzip git xclip curl
