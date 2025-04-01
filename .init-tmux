@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 echo "Initializing tmux..."
+sleep 0.2
 tmux rename-window -t 1 nvim
 tmux send-keys -t nvim 'nvim .' 
 tmux neww -n term
